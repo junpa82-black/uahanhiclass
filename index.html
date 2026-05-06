@@ -2,7 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f6fb" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1020" />
@@ -77,9 +80,17 @@
         box-sizing: border-box;
       }
 
+      html {
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
       body {
         margin: 0;
+        min-height: 100vh;
         min-height: 100dvh;
+        min-height: -webkit-fill-available;
         font-family: var(--font-body);
         color: var(--text);
         background-color: var(--bg);
@@ -642,6 +653,8 @@
         font-size: clamp(1.4rem, 3.6vw, 1.82rem);
         letter-spacing: -0.045em;
         line-height: 1.15;
+        word-break: keep-all;
+        overflow-wrap: break-word;
         background: linear-gradient(102deg, var(--text) 0%, color-mix(in srgb, var(--accent) 55%, var(--text)) 55%, color-mix(in srgb, var(--hitalk) 42%, var(--text)) 100%);
         -webkit-background-clip: text;
         background-clip: text;
@@ -828,6 +841,162 @@
         .tile {
           animation: none !important;
         }
+        .tile--stack.tile--liu:hover,
+        .tile--stack.tile--lia:hover,
+        .tile--stack.tile--hub:hover {
+          transform: none;
+        }
+      }
+
+      /* 모바일 · 좁은 화면: 여백·타이포·탭 타겟 정리 */
+      @media (max-width: 560px) {
+        .shell {
+          padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+          padding-right: max(0.85rem, env(safe-area-inset-right, 0px));
+          padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+          padding-left: max(0.85rem, env(safe-area-inset-left, 0px));
+          max-width: 100%;
+        }
+
+        .topbar {
+          flex-wrap: wrap;
+          gap: 0.6rem 0.75rem;
+          padding: 0.5rem 0.72rem;
+          border-radius: 1.22rem;
+        }
+
+        .brand-kicker {
+          font-size: 0.61rem;
+          letter-spacing: 0.09em;
+        }
+
+        .brand-name {
+          font-size: clamp(0.82rem, 4.2vw, 0.92rem);
+        }
+
+        .tag-live {
+          font-size: 0.72rem;
+          padding: 0.32rem 0.72rem;
+        }
+
+        .bento {
+          gap: 0.88rem;
+        }
+
+        .tile__inner {
+          padding: clamp(0.92rem, 4vw, 1.35rem);
+        }
+
+        .child-title {
+          font-size: clamp(1.2rem, 5.4vw + 0.35rem, 1.52rem);
+        }
+
+        .hub-title {
+          font-size: clamp(1.05rem, 4.8vw + 0.65rem, 1.52rem);
+          line-height: 1.22;
+        }
+
+        .hub-head {
+          gap: 0.65rem;
+        }
+
+        .menu-link {
+          padding: max(0.78rem, 12px) 0.88rem;
+          min-height: 2.875rem;
+          font-size: 0.9375rem;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 14%, transparent);
+        }
+
+        .tile--liu .menu-link {
+          -webkit-tap-highlight-color: color-mix(in srgb, var(--liu) 16%, transparent);
+        }
+
+        .tile--lia .menu-link {
+          -webkit-tap-highlight-color: color-mix(in srgb, var(--lia) 16%, transparent);
+        }
+
+        .hub-card {
+          padding: 1rem 1.05rem;
+          min-height: 5rem;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 12%, transparent);
+        }
+
+        .hub-card-title {
+          font-size: clamp(1.06rem, 4vw + 0.45rem, 1.28rem);
+        }
+
+        /* 좌측 컬러 스트립 살짝 줄여 한 화면에 부담 덜하게 */
+        .tile--liu {
+          box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.5) inset,
+            0 18px 44px -30px var(--liu-glow),
+            -4px 0 0 0 color-mix(in srgb, var(--liu) 88%, transparent) inset;
+        }
+
+        .tile--lia {
+          box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.5) inset,
+            0 18px 44px -30px var(--lia-glow),
+            -4px 0 0 0 color-mix(in srgb, var(--lia) 88%, transparent) inset;
+        }
+      }
+
+      @media (max-width: 560px) and (prefers-color-scheme: dark) {
+        .tile--liu {
+          box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.06) inset,
+            0 18px 44px -30px var(--liu-glow),
+            -4px 0 0 0 color-mix(in srgb, var(--liu) 88%, transparent) inset;
+        }
+
+        .tile--lia {
+          box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.06) inset,
+            0 18px 44px -30px var(--lia-glow),
+            -4px 0 0 0 color-mix(in srgb, var(--lia) 88%, transparent) inset;
+        }
+      }
+
+      /* 터치 기기: 호버 때 밀림·들림 비활성 (끌림·더블탭 줌 완화) */
+      @media (hover: none) and (pointer: coarse) {
+        .menu-link:hover,
+        .menu-link:hover svg {
+          transform: none;
+        }
+
+        .menu-link:active {
+          transform: scale(0.985);
+        }
+
+        .tile--liu .menu-link:hover,
+        .tile--lia .menu-link:hover {
+          transform: none;
+          box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .tile--liu .menu-link:active {
+          border-color: color-mix(in srgb, var(--liu) 40%, var(--stroke));
+          background: color-mix(in srgb, var(--liu) 10%, var(--bg-elevated));
+          transform: scale(0.988);
+        }
+
+        .tile--lia .menu-link:active {
+          border-color: color-mix(in srgb, var(--lia) 40%, var(--stroke));
+          background: color-mix(in srgb, var(--lia) 10%, var(--bg-elevated));
+          transform: scale(0.988);
+        }
+
+        .hub-card:hover,
+        .hub-card:hover .hub-card-go {
+          transform: none;
+        }
+
+        .hub-card:active {
+          transform: scale(0.99);
+        }
+
         .tile--stack.tile--liu:hover,
         .tile--stack.tile--lia:hover,
         .tile--stack.tile--hub:hover {
